@@ -31,7 +31,7 @@ export const FullBlog = ({ blog, deleteBlog }: FullBlogProps) => {
   const handleDelete = async () => {
     try {
       const message = await deleteBlog();
-      // console.log(message);
+      console.log(message);
       queryClient.invalidateQueries(["blogs"]);
       navigate("/blogs");
     } catch (error) {

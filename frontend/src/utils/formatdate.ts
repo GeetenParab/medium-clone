@@ -1,4 +1,4 @@
-function formatDate(dateString) {
+function formatDate(dateString:string) {
     const date = new Date(dateString);
 
     // Define arrays for month names and suffixes

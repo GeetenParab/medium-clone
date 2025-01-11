@@ -9,7 +9,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 export interface Blog {
               "content": string,
             "title": string,
-            "id": number,
+            "id": string,
             "createdAt":string
             "author": {
                 "name": string

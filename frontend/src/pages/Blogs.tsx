@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Appbar from "../components/Appbar"
 import BlogCard from "../components/BlogCard"
 import Skeleton from "../components/Skeleton"
-import { UseBlogs } from "../hooks/Index"
+import { Blog, UseBlogs } from "../hooks/Index"
 import { debounce } from "lodash";
 
 
@@ -70,7 +70,7 @@ const Blogs = () => {
         <div>
           {data?.pages.map((page, i) => (
             <div key={i}>
-              {page.blogs.map((blog) => (
+              {page.blogs.map((blog:Blog) => (
                 <BlogCard
                   key={blog.id}
                   id={blog.id}

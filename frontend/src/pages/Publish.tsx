@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Appbar from "../components/Appbar";
 import { BACKEND_URL } from "../config";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -69,9 +69,9 @@ const Publish = () => {
 
     
     } catch (error) {
-      alert(
-        error.response?.data?.message || "An error occurred while publishing!"
-      );
+      const errorMessage =
+      (error as any)?.response?.data?.message || "An error occurred while publishing!";
+    alert(errorMessage);
     } finally {
       setLoading(false);
     }
