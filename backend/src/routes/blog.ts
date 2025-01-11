@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { verify } from 'hono/jwt'
 import { createPostInput, updatePostInput } from "@geeten/medium-common";
+import { createPrismaClient } from "../db";
 
 export const blogRouter =new Hono<{
 	Bindings: {
@@ -68,12 +69,13 @@ blogRouter.post('/', async (c) => {
     });
  })
    
- blogRouter.put('/', async (c) => {
+ blogRouter.put('/:id', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
   
         const body = await c.req.json();
+        const id = c.req.param('id');
 
         const {success} = updatePostInput.safeParse(body);
 
@@ -87,7 +89,7 @@ blogRouter.post('/', async (c) => {
  
        const post =  await prisma.post.update({
         where:{
-                id: body.id
+                id
         },
             data:{
                 title: body.title,
@@ -100,19 +102,57 @@ blogRouter.post('/', async (c) => {
     });
  })
   //pagination
+  
   blogRouter.get('/bulk', async (c) => {
-
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate())
-    
-    const blogs = await prisma.post.findMany();
+    }).$extends(withAccelerate());
 
-   return c.json({
-    blogs
-   })
+    try {
+        const page = Number(c.req.query('page')) || 1; // Default page is 1
+        const limit = Number(c.req.query('limit')) || 5; // Default limit is 5
+        const skip = (page - 1) * limit;
 
- })
+        // Fetch paginated blogs
+        const blogs = await prisma.post.findMany({
+            select: {
+                content: true,
+                title: true,
+                id: true,
+                createdAt: true,
+                author: {
+                    select: {
+                        name: true,
+                        id: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            skip: skip,
+            take: limit,
+        });
+
+        // Fetch total blog count
+        const totalBlogs = await prisma.post.count();
+        const totalPages = Math.ceil(totalBlogs / limit);
+
+        // Return paginated response
+        return c.json({
+            blogs,
+            currentPage: page,
+            totalPages,
+            totalBlogs,
+        });
+    } catch (error) {
+        console.error("Error fetching blogs:", error);
+        return c.json({ error: "Failed to fetch blogs." }, 500);
+    } finally {
+        await prisma.$disconnect(); // Ensure Prisma client is disconnected
+    }
+});
+
     
  blogRouter.get('/:id', async (c) => {
     const prisma = new PrismaClient({
@@ -125,6 +165,18 @@ blogRouter.post('/', async (c) => {
         const post =  await prisma.post.findFirst({
              where: {
                  id
+             },
+             select:{
+                id:true,
+                title:true,
+                content:true,
+                createdAt:true,
+                author:{
+                   select:{
+                    name:true,
+                    id:true,
+                   }
+                }
              }
          })
           
@@ -138,6 +190,35 @@ blogRouter.post('/', async (c) => {
           })
        }
  })
+
+
+ blogRouter.delete('/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+  
+
+
+    const id = c.req.param('id');
+ 
+       try {
+          await prisma.post.delete({
+             where: {
+                 id
+             }
+         })
+          
+     return c.json({
+        message: "succeccfully deleted"
+     });
+       } catch (error) {
+          c.status(411);
+          return c.json({
+            message: " error while deleting blog post"
+          })
+       }
+ })
+
 
 
  
