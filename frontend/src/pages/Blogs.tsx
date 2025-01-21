@@ -36,7 +36,7 @@ const Blogs = () => {
   
     // Update the previous scroll position
     previousScrollTop = scrollTop;
-  },400);
+  },1000);
   
 
   useEffect(() => {
