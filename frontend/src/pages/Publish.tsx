@@ -48,8 +48,9 @@ const Publish = () => {
         // queryClient.invalidateQueries(["blog", blogToEdit.id]);
         queryClient.refetchQueries(["blog"]);
         setLoading(false)
-        queryClient.invalidateQueries(["blogs"]);
-        queryClient.refetchQueries(["blogs"]);
+        // queryClient.invalidateQueries(["blogs"]);
+        queryClient.invalidateQueries(["blogs",{ pageParam: 1 }]);
+       
           navigate(`/blog/${response.data.id}`, { replace: true });
       } else {
         // Create new blog (POST request)
@@ -62,8 +63,7 @@ const Publish = () => {
             },
           }
         );
-        queryClient.invalidateQueries(["blogs"]);
-        queryClient.refetchQueries(["blogs"]);
+        queryClient.invalidateQueries(["blogs",{ pageParam: 1 }]);
         navigate(`/blog/${response.data.id}`,{ replace: true });
       }
 
