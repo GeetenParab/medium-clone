@@ -1,67 +1,53 @@
-Medium Clone (Full Stack Blogging Platform)
+# Medium Clone (Full Stack Blogging Platform)
 
 A minimal Medium-like blogging platform built to explore modern backend development using edge computing and scalable architecture.
 
-📌 Overview
+## Overview
+This project was developed as a hands-on learning experience to understand backend systems using Cloudflare Workers, Hono, and PostgreSQL (NeonDB). The focus is on performance, scalability, and clean API design.
 
-This project was developed as a hands-on learning experience to understand how modern backend systems work using Cloudflare Workers, Hono, and PostgreSQL (NeonDB). It focuses on performance, scalability, and clean architecture.
+## Tech Stack
 
-⚙️ Tech Stack
+Frontend:
+- React (TypeScript)
+- shadcn/ui (simple and clean UI)
+- Redux (state management)
+- TanStack Query (data fetching and caching)
 
-Frontend
+Backend:
+- Hono.js (lightweight web framework)
+- Cloudflare Workers (edge runtime)
+- Prisma ORM
 
-React + TypeScript
+Database:
+- PostgreSQL (NeonDB)
+- Connection pooling
 
-shadcn/ui (clean and simple UI)
+## Features
 
-Redux (state management)
+- Create, read, and manage blog posts
+- Edge-based backend for low latency
+- Pagination implemented on both frontend and backend
+- Rate limiting to prevent abuse
+- Optimized data fetching with caching
+- Clean and structured API design
 
-TanStack Query (data fetching & caching)
+## Live Demo
+https://medium-clone-snowy-five.vercel.app
 
-Backend
+## Purpose
 
-Hono.js (lightweight web framework)
+This project was built to:
+- Learn backend development concepts
+- Understand edge computing using Cloudflare Workers
+- Implement real-world features like rate limiting and pagination
+- Work with scalable database systems
 
-Cloudflare Workers (edge runtime)
+## What I Learned
 
-Prisma ORM
+- Designing scalable backend APIs
+- Working with serverless edge environments
+- Efficient database connection handling
+- Integrating frontend with backend systems
 
-Database
-
-PostgreSQL (NeonDB)
-
-Connection pooling for efficient DB usage
-
-🔑 Features
-
-✍️ Create, read, and manage blog posts
-
-⚡ Edge-based backend (low latency)
-
-🔁 Pagination implemented on both frontend & backend
-
-🚫 Rate limiting to prevent abuse
-
-📦 Optimized data fetching with caching (TanStack Query)
-
-🧠 Clean API design with Hono
-
-🎯 Purpose
-
-This project was built primarily to:
-
-Learn backend development in depth
-
-Understand edge computing (Cloudflare Workers)
-
-Work with real-world concepts like rate limiting, pagination, and database optimization
-
-📈 What I Learned
-
-Designing scalable backend APIs
-
-Using serverless edge environments
-
-Managing database connections efficiently
-
-Integrating frontend with optimized backend systems
+## Repository
+https://github.com/your-username/medium-clone
